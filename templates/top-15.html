@@ -11,6 +11,7 @@
     <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+
     <!-- Normalize.css fixes lot of differences between browsers default styles -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css"/>
 
@@ -36,14 +37,21 @@
     <header class="clearfix">
         <img id="header-logo" src="{{ url_for('static', filename='assets/codecool-logo.png') }}" alt="Codecool Logo">
         <span id="header-title" class="title">
-                        Codecool Series DB
-                    </span>
+                    Codecool Series DB
+                </span>
         <div id="header-auth">
             <button type="button" id="bt_register">Register</button>
             <button type="button" id="bt_login">Login</button>
         </div>
     </header>
     <section>
+        <nav class="breadcrumb">
+            <a href="#">Game of Thrones</a>
+            <span class="separator">&gt;</span>
+            <a href="#">Season 3</a>
+            <span class="separator">&gt;</span>
+            <a href="#">Episode 8</a>
+        </nav>
         <h1 class="title text-center">Welcome page</h1>
         <div class="card">
             <h2>Welcome TV show lovers!</h2>
@@ -54,17 +62,44 @@
                 in-depth
                 navigation.
             </p>
-            <p><a href="{{ url_for('top_15) }}">Top 15</a></p>
         </div>
         <div class="card">
-            <ul>
-                {% for show in shows %}
-                    <li>
-                        <a href="{{ '/tv-show/' + (show['id'] | string) }}">{{ show['title'] }}</a>
-                    </li>
+            Top 15 shows:
+            <table>
+                <thead>
+                <tr>
+                    <th>Full Title</th>
+                    <th>Release Year</th>
+                    <th>Average Runtime</th>
+                    <th>First Genre</th>
+                    <th>Rating</th>
+                    <th>Links</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for show in top_15_shows %}
+                    <tr>
+                        <td>{{ show['title'] }}</td>
+                        <td>{{ show['year'] }}</td>
+                        <td>{{ show['runtime'] }}</td>
+                        <td>{{ show['genre'] }}</td>
+                        <td>{{ show['rating'] }}</td>
+                        <td><a href="{{ show['trailer'] }}">Trailer</a> and <a href="{{ show['homepage'] }}">Website</a></td>
+                    </tr>
                 {% endfor %}
-            </ul>
+
+                </tbody>
+            </table>
         </div>
+
+        <button>
+            <a href="{{ url_for('top_15', page_id=page_id-1) }}">Previous</a>
+        </button>
+        <button>
+            <a href="{{ url_for('top_15', page_id=page_id+1) }}">Next</a>
+        </button>
+
+
     </section>
     <footer>
         Copyright, bla-bla
@@ -75,4 +110,5 @@
     <div class="light-blue-layer"></div>
 </div>
 </body>
+
 </html>

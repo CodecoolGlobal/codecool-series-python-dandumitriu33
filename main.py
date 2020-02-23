@@ -15,6 +15,26 @@ def design():
     return render_template('design.html')
 
 
+@app.route('/top15/<page_id>')
+def top_15(page_id):
+    page_id = int(page_id)
+    try:
+        offset = int(page_id) * 15
+        top_15_shows = queries.get_top_15_shows(offset)
+        return render_template('top-15.html',
+                               page_id=page_id,
+                               top_15_shows=top_15_shows)
+    except:
+        page_id = 0
+        offset = int(page_id) * 15
+        top_15_shows = queries.get_top_15_shows(offset)
+        return render_template('top-15.html',
+                               page_id=page_id,
+                               top_15_shows=top_15_shows)
+
+
+
+
 def main():
     app.run(debug=True)
 
