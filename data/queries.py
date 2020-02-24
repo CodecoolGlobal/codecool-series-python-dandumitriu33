@@ -27,5 +27,12 @@ def get_only_genres_for_top_15(offset=0):
 
 def get_show_by_id(show_id):
     return data_manager.execute_select(f'''
-    SELECT title, year, overview, runtime, trailer, homepage, rating FROM shows WHERE id = {show_id};
+    SELECT title, year, overview, runtime, trailer, homepage, rating, string_agg(DISTINCT genres.name, ', ') as genres,
+            string_agg(DISTINCT actors.name, ', ') as actors
+    FROM shows JOIN show_genres ON shows.id = show_genres.show_id
+                JOIN genres ON show_genres.genre_id = genres.id
+                JOIN show_characters ON shows.id = show_characters.show_id
+                JOIN actors ON show_characters.actor_id = actors.id
+    WHERE shows.id = {show_id}
+    GROUP BY title, year, overview, runtime, trailer, homepage, rating;
 ''')

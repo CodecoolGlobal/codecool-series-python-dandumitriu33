@@ -33,11 +33,14 @@ def top_15(page_id):
                                top_15_shows=top_15_shows)
 
 
-@app.route('/show/<show_id>')
+@app.route('/tv-show/<show_id>')
 def display_show(show_id):
-    show = queries.get_show_by_id(show_id)
+    show = queries.get_show_by_id(show_id)[0]
+    show_trailer_beta = show['trailer'].replace('http', 'https')
+    show_trailer = show_trailer_beta.replace('watch?v=', 'embed/')
     return render_template('show.html',
-                           show=show)
+                           show=show,
+                           show_trailer=show_trailer)
 
 
 def main():
