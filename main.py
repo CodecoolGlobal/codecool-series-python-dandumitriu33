@@ -33,6 +33,11 @@ def top_15(page_id):
                                top_15_shows=top_15_shows)
 
 
+@app.route('/show/<show_id>')
+def display_show(show_id):
+    show = queries.get_show_by_id(show_id)
+    return render_template('show.html',
+                           show=show)
 
 
 def main():

@@ -23,3 +23,9 @@ def get_only_genres_for_top_15(offset=0):
         GROUP BY title, rating, genres.name
         ORDER BY rating DESC LIMIT 15 OFFSET {offset}
 ''')
+
+
+def get_show_by_id(show_id):
+    return data_manager.execute_select(f'''
+    SELECT title, year, overview, runtime, trailer, homepage, rating FROM shows WHERE id = {show_id};
+''')
