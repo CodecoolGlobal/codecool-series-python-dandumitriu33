@@ -43,6 +43,12 @@ def display_show(show_id):
                            show_trailer=show_trailer)
 
 
+@app.route('/actors')
+def first_20_actors():
+    first_20 = queries.get_first_20_actors()
+    return render_template('actors.html', first_20=first_20)
+
+
 def main():
     app.run(debug=True)
 

@@ -38,3 +38,13 @@ def get_show_by_id(show_id):
     WHERE shows.id = {show_id}
     GROUP BY shows.title, year, shows.overview, runtime, trailer, homepage, rating;
 ''')
+
+
+def get_first_20_actors():
+    return data_manager.execute_select(f'''
+    SELECT actors.name, string_agg(CAST(shows.title as text) , '@@') as titles, string_agg(CAST(shows.id as text), '@@@') as ids FROM actors
+        JOIN show_characters ON actors.id = show_characters.actor_id
+        JOIN shows ON show_characters.show_id = shows.id
+        GROUP BY actors.name
+        ORDER BY actors.name LIMIT 20;
+''')
